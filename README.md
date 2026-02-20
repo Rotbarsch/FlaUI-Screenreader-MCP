@@ -1,0 +1,99 @@
+# FlaUI ScreenReader MCP Server
+
+This is a Proof-of-Concept (PoC) implementation of a MCP (Model Context Protocol) server for extracting UIA3 Automation Trees and basic interaction with UI applications in order to enable AI to support during the creation of E2E UI Tests. 
+
+## Mission Statement
+This project aims to simplify the creation of UI tests by providing the agent with the automation tree representation of the UI, minimizing AI hallucinations and providing necessary context to the agent.
+
+## Setting up the server
+
+Clone the repository and ensure it builds (.NET 10 required). *Currently, it is not published to any repositories.*
+
+That's it! The provided tool accepts a file-path as a parameter, which will then be recursively scanned for eligible dll files.
+In the context of an IDE like VS Code, this would in most cases be the root of the current working directory.
+
+## Available tools
+
+### ScreenReaderTool
+
+*GetAutomationTreeOfProcess*: Returns information about the UIA3 automation tree of the selected process. Accepts the name of the process (without .exe!) as parameter.
+
+### UiInteractionTool
+
+*HighlightElement*: Highlights the element identified by the provided AutomationId or Name belonging to the provided process in red for 30 seconds.
+
+*ClickElement*: Clicks the element identified by the provided AutomationId or Name belonging to the provided process in red for 30 seconds.
+
+*SelectItemInElement*: Selects an item (identified by its text) in a combobox identified by AutomationId or Name, which belongs to the provided process.
+
+## Making the MCP server available to AI agents
+
+### Visual Studio Code with GitHub Copilot extension
+
+Assuming you have the GitHub Copilot extension installed in Visual Studio Code, you can configure it to use the MCP server as follows:
+
+1. If not open already, open the GitHub Copilot chat, e.g., by pressing `CTRL+ALT+I` or whatever shortcut is configured for your environment.
+2. Make sure GitHub Copilot is set to "Agent" on the bottom left of the chat window.
+3. Click the small icon depicting a wrench and screwdriver on the bottom of the chat, next to the selection of the model. At the top of the Visual Studio Code window, a list of available MCP servers opens.
+4. Click the small icon labeled "Add MCP Server..." at the top of the list of available MCP servers.
+5. Next, select "Command (stdio)".
+6. Enter the following command in the prompt and confirm:
+```
+dotnet run --project PATH_TO_YOUR_CLONED_REPO/ReqnRollMcpServer/ReqnRollMcpServer.csproj
+```
+Replace `PATH_TO_YOUR_CLONED_REPO` with your local path to the cloned ReqnRollMcpServer repository.
+
+7. Enter a unique and informative name for your configuration, e.g., "ReqnRoll MCP Server".
+8. A file named `mcp.json` located in your `%APPDATA%/Code/User` directory will open. It should look something like this:
+```
+{
+	"servers": {
+		"FlaUiScreenReaderMcp": {
+			"type": "stdio",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"C:\\...\\FlaUIScreenReaderMCP\\FlaUIScreenReaderMCP.csproj"
+			]
+		}
+	},
+	"inputs": []
+}
+```
+9. Save the file. Notice the small `Start` prompt on top of the JSON node describing your newly added MCP server. Click it to start the server. If anything goes wrong, Visual Studio Code will display the console output of the server with a detailed stack trace.
+10. Clicking the wrench and screwdriver icon again will now show your MCP server. If the checkbox next to it is unchecked, check it.
+11. GitHub Copilot is now ready for use. Try prompting it with:
+```
+List all available ReqnRoll bindings.
+```
+12. Before using a specific functionality (named "Tool" in the MCP world) for the first time, the chat will ask for your permission via a prompt.
+After confirming that prompt, you should get an answer listing all available ReqnRoll bindings in the defined assemblies.
+
+### Visual Studio with GitHub Copilot
+1. Open the window "GitHub Copilot Chat".
+2. Click the small wrench icon on the bottom right of the chat window labeled "Select tools". A list of available MCP servers opens.
+3. Click the small green plus on the top right of the tool list. A new dialog opens.
+4. Fill out the dialog:
+- Destination: Select whether you want the server to be available globally or in the current solution only.
+- Server ID: Enter a unique and informative name for your configuration, e.g., "ReqnRoll MCP Server".
+- Type: Select "stdio".
+- Command: Enter `dotnet run --project PATH_TO_YOUR_CLONED_REPO/FlaUIScreenReaderMCP/FlaUIScreenReaderMCP.csproj`, replacing `PATH_TO_YOUR_CLONED_REPO` with your local file path.
+5. Click "Save". The MCP server is now added to your list of available tools.
+6. GitHub Copilot is now ready for use. Try prompting it with:
+```
+List all available ReqnRoll bindings.
+```
+7. Before using a specific functionality (named "Tool" in the MCP world) for the first time, the chat will ask for your permission via a prompt.
+After confirming that prompt, you should get an answer listing all available ReqnRoll bindings in the defined assemblies.
+
+## "Unable to load type" and similar messages
+Make sure all dependencies of the assemblies configured in `inputs.json` lie either next to the assembly or in the base directory of the MCP server. The easieest way to achieve this is by setting the paths of a runnable, buildable ReqnRoll project referencing and using those bindings instead of the bindings project itself.
+
+## The documentation XML is nowhere to be found
+Depending on the configuration of the bindings csproj file, XML documentation is not always copied to the output directory. 
+In that case, either adjust the bindings project to copy the XML documentation to the output directory or provide the path to the XML documentation manually in `inputs.json`. 
+In case of nuget packages, check `%HOMEPATH%/.nuget/packages` for the XML documentation files.
+
+## Bonus: Markdown Documentation Generator
+The repository also includes a simple console application that generates markdown documentation for all available ReqnRoll bindings based on the same `inputs.json` file used by the MCP server. Simply start the console app with an argument providing the desired output file path (eg. `C:/source/Bindings.md`) and prepared `inputs.json`.
