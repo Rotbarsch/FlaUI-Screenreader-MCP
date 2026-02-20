@@ -65,7 +65,7 @@ Replace `PATH_TO_YOUR_CLONED_REPO` with your local path to the cloned ReqnRollMc
 10. Clicking the wrench and screwdriver icon again will now show your MCP server. If the checkbox next to it is unchecked, check it.
 11. GitHub Copilot is now ready for use. Try prompting it with:
 ```
-List all available ReqnRoll bindings.
+Which buttons are currently enabled in application 'awesometool'?
 ```
 12. Before using a specific functionality (named "Tool" in the MCP world) for the first time, the chat will ask for your permission via a prompt.
 After confirming that prompt, you should get an answer listing all available ReqnRoll bindings in the defined assemblies.
@@ -82,18 +82,7 @@ After confirming that prompt, you should get an answer listing all available Req
 5. Click "Save". The MCP server is now added to your list of available tools.
 6. GitHub Copilot is now ready for use. Try prompting it with:
 ```
-List all available ReqnRoll bindings.
+Which buttons are currently enabled in application 'awesometool'?
 ```
 7. Before using a specific functionality (named "Tool" in the MCP world) for the first time, the chat will ask for your permission via a prompt.
 After confirming that prompt, you should get an answer listing all available ReqnRoll bindings in the defined assemblies.
-
-## "Unable to load type" and similar messages
-Make sure all dependencies of the assemblies configured in `inputs.json` lie either next to the assembly or in the base directory of the MCP server. The easieest way to achieve this is by setting the paths of a runnable, buildable ReqnRoll project referencing and using those bindings instead of the bindings project itself.
-
-## The documentation XML is nowhere to be found
-Depending on the configuration of the bindings csproj file, XML documentation is not always copied to the output directory. 
-In that case, either adjust the bindings project to copy the XML documentation to the output directory or provide the path to the XML documentation manually in `inputs.json`. 
-In case of nuget packages, check `%HOMEPATH%/.nuget/packages` for the XML documentation files.
-
-## Bonus: Markdown Documentation Generator
-The repository also includes a simple console application that generates markdown documentation for all available ReqnRoll bindings based on the same `inputs.json` file used by the MCP server. Simply start the console app with an argument providing the desired output file path (eg. `C:/source/Bindings.md`) and prepared `inputs.json`.
