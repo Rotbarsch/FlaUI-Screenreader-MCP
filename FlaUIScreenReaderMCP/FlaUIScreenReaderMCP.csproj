@@ -11,7 +11,6 @@
     <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
-    <PackageReference Include="ModelContextProtocol" Version="0.6.0-preview.1" />
   </ItemGroup>
 
 </Project>
