@@ -6,10 +6,14 @@ using ModelContextProtocol.Server;
 namespace FlaUIScreenReaderMCP.Tools;
 
 [McpServerToolType]
+[Description("Returns the AutomationTree of all windows belonging to a process.")]
 public static class ScreenReaderTool
 {
-    [McpServerTool, Description("Returns information about the UIA3 automation tree of the selected process. Accepts the name of the process (without .exe!) as parameter.")]
-    public static string GetAutomationTreeOfProcess(string processName)
+    [McpServerTool(Name = "get_automation_tree", Title = "Get Automation Tree of a process")]
+    [Description("Returns information about the UIA3 automation tree of the selected process's child windows.")]
+    public static string GetAutomationTreeOfProcess(
+        [Description("The name of the process (without file ending) to inspect.")]
+        string processName)
     {
         if (!ScreenReader.TryGetScreenReaderForProcess(processName, out var sr))
         {
