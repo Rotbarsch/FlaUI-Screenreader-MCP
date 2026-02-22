@@ -92,9 +92,4 @@ After confirming that prompt, you should get an answer listing all available Req
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ### Third-Party Dependencies
-
-This project depends on ModelContextProtocol, which is licensed under the Apache License, Version 2.0.
-
-A copy of the Apache License 2.0 and required notices are included in [THIRD-PARTY-NOTICES.txt](./THIRD-PARTY-NOTICES.txt).
-
-The Apache License 2.0 grants a patent license from its contributors and requires preservation of license and notice information when redistributing the software.
+Information about the licenses of dependencies can be found in the [THIRD-PARTY_NOTICES](./THIRD-PARTY_NOTICES.txt) file.
