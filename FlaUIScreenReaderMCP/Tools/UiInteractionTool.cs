@@ -6,10 +6,16 @@ using ModelContextProtocol.Server;
 namespace FlaUIScreenReaderMCP.Tools;
 
 [McpServerToolType]
+[Description("Provides tools for interacting with UI elements.")]
 public static class UiInteractionTool
 {
-    [McpServerTool, Description("Highlights the element identified by the provided AutomationId or Name belonging to the provided process in red for 30 seconds.")]
-    public static string HighlightElement(string processName, string automationIdOrName)
+    [McpServerTool(Name = "highlight_control", Title = "Highlight a control")]
+    [Description("Highlights an element visually in red for 30 seconds.")]
+    public static string HighlightElement(
+        [Description("Name of the process, under which the element resides.")]
+        string processName,
+        [Description("AutomationId or Name of the element to highlight.")]
+        string automationIdOrName)
     {
         if (!AutomationElementInteractor.TryGetInteractorForProcess(processName, out var interactor))
         {
@@ -30,8 +36,13 @@ public static class UiInteractionTool
             });
     }
 
-    [McpServerTool, Description("Clicks the element identified by the provided AutomationId or Name belonging to the provided process in red for 30 seconds.")]
-    public static string ClickElement(string processName, string automationIdOrName)
+    [McpServerTool(Name = "click_control", Title = "Click a control")]
+    [Description("Performs a click on an element.")]
+    public static string ClickElement(
+        [Description("Name of the process, under which the element resides.")]
+        string processName,
+        [Description("AutomationId or Name of the element to click.")]
+        string automationIdOrName)
     {
         if (!AutomationElementInteractor.TryGetInteractorForProcess(processName, out var interactor))
         {
@@ -51,8 +62,15 @@ public static class UiInteractionTool
             });
     }
 
-    [McpServerTool, Description("Selects an item (identified by its text) in a combobox identified by AutomationId or Name, which belongs to the provided process.")]
-    public static string SelectItemInElement(string processName, string automationIdOrName, string itemText)
+    [McpServerTool(Name = "select_item", Title = "Select an item in a control")]
+    [Description("Selects an item in an element (for example, ListBox or ComboBox controls).")]
+    public static string SelectItemInElement(
+        [Description("Name of the process, under which the element resides.")]
+        string processName,
+        [Description("AutomationId or Name of the element.")]
+        string automationIdOrName,
+        [Description("Item to select.")]
+        string itemText)
     {
         if (!AutomationElementInteractor.TryGetInteractorForProcess(processName, out var interactor))
         {
