@@ -6,20 +6,29 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <!---DNX support-->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>Rotbarsch-FlaUiScreenReaderMcp</ToolCommandName>
+
+    <!--NuGet Metadata-->
+    <PackageId>Rotbarsch.FlaUiScreenReaderMcp</PackageId>
+    <Authors>Rotbarsch</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>../README.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!--Fast startup-->
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
   
   <ItemGroup>
     <!-- Include third-party notices inside the NuGet package -->
-    <None Include="../THIRD-PARTY-NOTICES.txt"
-          Pack="true"
-          PackagePath="" />
+    <None Include="../THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
-    <PackageReference Include="ModelContextProtocol" Version="0.9.0-preview.2" />
+    <PackageReference Include="ModelContextProtocol" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
   </ItemGroup>

@@ -5,13 +5,6 @@ This is a Proof-of-Concept (PoC) implementation of a MCP (Model Context Protocol
 ## Mission Statement
 This project aims to simplify the creation of UI tests by providing the agent with the automation tree representation of the UI, minimizing AI hallucinations and providing necessary context to the agent.
 
-## Setting up the server
-
-Clone the repository and ensure it builds (.NET 10 required). *Currently, it is not published to any repositories.*
-
-That's it! The provided tool accepts a file-path as a parameter, which will then be recursively scanned for eligible dll files.
-In the context of an IDE like VS Code, this would in most cases be the root of the current working directory.
-
 ## Available tools
 
 ### ScreenReaderTool
@@ -39,9 +32,8 @@ Assuming you have the GitHub Copilot extension installed in Visual Studio Code, 
 5. Next, select "Command (stdio)".
 6. Enter the following command in the prompt and confirm:
 ```
-dotnet run --project PATH_TO_YOUR_CLONED_REPO/ReqnRollMcpServer/ReqnRollMcpServer.csproj
+dnx Rotbarsch.FlaUiScreenReaderMcp --yes
 ```
-Replace `PATH_TO_YOUR_CLONED_REPO` with your local path to the cloned ReqnRollMcpServer repository.
 
 7. Enter a unique and informative name for your configuration, e.g., "ReqnRoll MCP Server".
 8. A file named `mcp.json` located in your `%APPDATA%/Code/User` directory will open. It should look something like this:
@@ -50,11 +42,10 @@ Replace `PATH_TO_YOUR_CLONED_REPO` with your local path to the cloned ReqnRollMc
 	"servers": {
 		"FlaUiScreenReaderMcp": {
 			"type": "stdio",
-			"command": "dotnet",
+			"command": "dnx",
 			"args": [
-				"run",
-				"--project",
-				"C:\\...\\FlaUIScreenReaderMCP\\FlaUIScreenReaderMCP.csproj"
+				"Rotbarsch.FlaUiScreenReaderMcp",
+				"--yes"
 			]
 		}
 	},
@@ -78,7 +69,7 @@ After confirming that prompt, you should get an answer listing all available Req
 - Destination: Select whether you want the server to be available globally or in the current solution only.
 - Server ID: Enter a unique and informative name for your configuration, e.g., "ReqnRoll MCP Server".
 - Type: Select "stdio".
-- Command: Enter `dotnet run --project PATH_TO_YOUR_CLONED_REPO/FlaUIScreenReaderMCP/FlaUIScreenReaderMCP.csproj`, replacing `PATH_TO_YOUR_CLONED_REPO` with your local file path.
+- Command: Enter `dnx Rotbarsch.FlaUiScreenReaderMcp --yes`.
 5. Click "Save". The MCP server is now added to your list of available tools.
 6. GitHub Copilot is now ready for use. Try prompting it with:
 ```
