@@ -1,6 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FlaUIScreenReaderMCP.Tools;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+{
+    Console.Error.WriteLine("This application is only supported on Windows.");
+}
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(consoleLogOptions =>
@@ -12,6 +18,7 @@ builder.Logging.AddConsole(consoleLogOptions =>
 builder.Services
     .AddMcpServer()
     .WithStdioServerTransport()
-    .WithToolsFromAssembly();
+    .WithTools<ScreenReaderTool>()
+    .WithTools<UiInteractionTool>();
 
 await builder.Build().RunAsync();

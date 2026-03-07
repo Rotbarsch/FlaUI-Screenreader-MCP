@@ -7,11 +7,11 @@ namespace FlaUIScreenReaderMCP.Tools;
 
 [McpServerToolType]
 [Description("Provides tools for interacting with UI elements.")]
-public static class UiInteractionTool
+public class UiInteractionTool
 {
     [McpServerTool(Name = "highlight_control", Title = "Highlight a control")]
     [Description("Highlights an element visually in red for 30 seconds.")]
-    public static string HighlightElement(
+    public string HighlightElement(
         [Description("Name of the process, under which the element resides.")]
         string processName,
         [Description("AutomationId or Name of the element to highlight.")]
